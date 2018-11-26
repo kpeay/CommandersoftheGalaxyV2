@@ -7,21 +7,26 @@ public class TacticsMove : MonoBehaviour
     public bool turn = false;
 
     List<Tile> selectableTiles = new List<Tile>();
-    GameObject[] tiles;
+    GameObject[] tiles; // Array of tiles as game objects
 
     Stack<Tile> path = new Stack<Tile>();
     Tile currentTile;
 
     public static bool moving = false;
+    public static bool willAttackAfterMove = false;
+    public static bool startAttack = false;
+    public static bool attacking = false;
+    public bool newUnitTurn = false;
+
     bool turnActive;
-    public int move = 5;
+    public int move = 5;                    // Number of tiles to move
     public int range = 1;
     public float jumpHeight = 2;
-    public float moveSpeed = 2;
+    public float moveSpeed = 2;             // How fast unit will walk across tiles
     public float jumpVelocity = 4.5f;
 
-    Vector3 velocity = new Vector3();
-    Vector3 heading = new Vector3();
+    Vector3 velocity = new Vector3();       // How fast units moves fro tile to tile
+    Vector3 heading = new Vector3();        // Direction unit is heading towards
 
     float halfHeight = 0;
 
@@ -33,20 +38,24 @@ public class TacticsMove : MonoBehaviour
     public Tile actualTargetTile;
 
     protected void Init()
-    {
+    {   // Get all tiles into an array
         tiles = GameObject.FindGameObjectsWithTag("Tile");
+        //Debug.Log("Number tiles " + tiles.Length);
 
         halfHeight = GetComponent<Collider>().bounds.extents.y;
 
         TurnManager.AddUnit(this);
     }
 
+    // Gets current tile under the Player/NPC.
+    // This will be the starting point for path finding.
     public void GetCurrentTile()
     {
         currentTile = GetTargetTile(gameObject);
         currentTile.current = true;
     }
 
+    // Gets the Tile of game object named target
     public Tile GetTargetTile(GameObject target)
     {
         RaycastHit hit;
@@ -71,8 +80,9 @@ public class TacticsMove : MonoBehaviour
         }
     }
 
-    public void FindSelectableTiles()
+    public void FindSelectableTiles(GameObject unit)
     {
+        string unitTag = unit.tag;
         ComputeAdjacencyLists(jumpHeight, null);
         GetCurrentTile();
 
@@ -80,7 +90,6 @@ public class TacticsMove : MonoBehaviour
 
         process.Enqueue(currentTile);
         currentTile.visited = true;
-        //currentTile.parent = ?? leave as null
 
         while (process.Count > 0)
         {
@@ -153,8 +162,28 @@ public class TacticsMove : MonoBehaviour
         }
     }
 
+    public void MoveToSelectableNeighborTile(Tile tile)
+    {
+        // Find next selectable empty neighbor tile
+        foreach(Tile t in tile.adjacencyList)
+        {
+            RaycastHit hit;
+
+            if (!Physics.Raycast(t.transform.position, Vector3.up, out hit, 1))
+            {   
+                if (t.selectable)
+                {
+                    MoveToTile(t);
+                    return;
+                }
+            }
+        }
+    }
+
     public void Move()
     {
+        //Debug.Log("-----Move entered-----------");
+        //Debug.Log("path.Count " + path.Count);
         if (path.Count > 0)
         {
             Tile t = path.Peek();
@@ -193,9 +222,19 @@ public class TacticsMove : MonoBehaviour
             RemoveSelectableTiles();
             moving = false;
 
-            //FindEnemies();
-            TurnManager.EndTurn();
+            //Debug.Log("willAttackAfterMove " + willAttackAfterMove);
 
+            // Movement to target tile ended.
+            if (willAttackAfterMove)    // Will we attack enemy
+            {
+                // Set switch to start attack
+                startAttack = true;
+                attacking = true;
+            }
+            else
+            {   // No attacking. Therefore, give up my turn.
+                TurnManager.EndTurn();
+            }
         }
     }
 
@@ -225,6 +264,7 @@ public class TacticsMove : MonoBehaviour
     {
         velocity = heading * moveSpeed;
     }
+
     void Jump(Vector3 target)
     {
         if(fallingDown)
@@ -427,10 +467,12 @@ public class TacticsMove : MonoBehaviour
     public void BeginTurn()
     {
         turn = true;
+        newUnitTurn = true;
     }
 
     public void EndTurn()
     {
         turn = false;
+        moving = false;
     }
 }

@@ -6,6 +6,11 @@ public class NPCMove : TacticsMove
 {
     GameObject target;
     public static bool NPCMoving = false;
+    public static bool NPC_Attacking = false;
+    public static bool NPC_WillAttack = false;
+    
+
+    private static int attackCount = 0;
 
 	// Use this for initialization
 	void Start ()
@@ -18,37 +23,51 @@ public class NPCMove : TacticsMove
     {
         Debug.DrawRay(transform.position, transform.forward);
 
-        if (!turn)
-        {
+        if (!turn)  // Is it my turn
+        {   // No, do nothing.
             return;
         }
 
-        if(!moving)
-        {
+        if (newUnitTurn)
+        {   // Just got turn. Find path and start moving
             NPCMoving = false;
-            FindNearestTarget();
-            CalculatePath();
-            FindSelectableTiles();
+            FindNearestTarget();    // Find nearest target "Player"
+            CalculatePath();        // Calculate A* path to nearest Player
+            FindSelectableTiles(gameObject);  // Shows all potential target tile moves
             actualTargetTile.target = true;
+            newUnitTurn = false;
+            moving = true;
+            return;
         }
-        else
-        {
+
+        if (moving)
+        {   // Continue moving to target tile
             Move();
             NPCMoving = true;
             PlayerMove.playerMoving = false;
+            return;
         }
+
+        if (attacking)
+        {
+            NPCAttacksPlayer(target);
+        }
+
 	}
 
     void CalculatePath()
     {
         Tile targetTile = GetTargetTile(target);
-        FindPath(targetTile);
+        FindPath(targetTile);   // Perform A* search
     }
 
     void FindNearestTarget()
-    {
+    {   // Player objects are enemies for NPC. Therefore,
+        // create an array of targets with Player tags. 
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Player");
 
+        // Simplest AI. Look for nearest player unit. Therefore, 
+        // distance will be used to find an attackable player
         GameObject nearest = null;
         float distance = Mathf.Infinity;
 
@@ -64,5 +83,32 @@ public class NPCMove : TacticsMove
         }
 
         target = nearest;
+
+        //Debug.Log("NPC distance to player " + distance);
+        if (distance < 5.0)
+        {
+            //Debug.Log("Set Player Tile attackable----");
+            willAttackAfterMove = true;
+            NPC_WillAttack = true;
+        }
+    }
+
+    void NPCAttacksPlayer(GameObject target)
+    {   // NPC Attacks nearest Player named target
+        //Debug.Log("NPC attacking player ........");
+        attackCount++;      // Increase attack count for testing
+        if (attackCount < 5)
+        {
+            Debug.Log("NPC attacking " + attackCount);
+        }
+        else
+        {
+            attackCount = 0;
+
+            // Run following when attack completes for turning to another unit
+            Debug.Log("NPC attacks ended....Turning to another unit");
+            attacking = false;
+            TurnManager.EndTurn();
+        }
     }
 }
