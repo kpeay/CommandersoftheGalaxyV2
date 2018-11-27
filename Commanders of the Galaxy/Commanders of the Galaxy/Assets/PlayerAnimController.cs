@@ -19,7 +19,6 @@ public class PlayerAnimController : MonoBehaviour {
         {
             playerAnim.SetBool("Running", false);
         }
-
         else
         {
             playerAnim.SetBool("Running", true);

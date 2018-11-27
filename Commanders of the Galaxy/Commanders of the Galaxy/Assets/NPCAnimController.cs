@@ -20,7 +20,6 @@ public class NPCAnimController : MonoBehaviour {
         {
             npcAnim.SetBool("Running", false);
         }
-
         else
         {
            npcAnim.SetBool("Running", true);

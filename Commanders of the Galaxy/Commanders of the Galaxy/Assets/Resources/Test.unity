@@ -52750,6 +52750,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e858e13e171cf94588365c53f714fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1708551477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1708551474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fccda873d334814cafad250ba5b8cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1713680851
 GameObject:
   m_ObjectHideFlags: 0
@@ -54778,6 +54789,7 @@ GameObject:
   - component: {fileID: 1771797635}
   - component: {fileID: 1771797634}
   - component: {fileID: 1771797633}
+  - component: {fileID: 1771797636}
   m_Layer: 0
   m_Name: NPC
   m_TagString: NPC
@@ -54852,6 +54864,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1771797636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1771797632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fccda873d334814cafad250ba5b8cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1771797637
 Transform:
   m_ObjectHideFlags: 0
@@ -61627,6 +61650,7 @@ GameObject:
   - component: {fileID: 1976002194}
   - component: {fileID: 1976002193}
   - component: {fileID: 1976002197}
+  - component: {fileID: 1976002195}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -61682,6 +61706,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1976002195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1976002192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fccda873d334814cafad250ba5b8cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1976002196
 Transform:
   m_ObjectHideFlags: 0

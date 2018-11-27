@@ -109,20 +109,27 @@ public class PlayerMove : TacticsMove {
     void PlayerAttacksNPC(GameObject target)
     {   // Player Attacks NPC pointed by mouse click
         //Debug.Log("Player attacking NPC........");
-        attackCount++;      // Increase attack count for testing
-        if (attackCount < 5)
-        {
-            Debug.Log("Player attacking " + attackCount);
-        }
-        else
-        {
-            attackCount = 0;
+        //PlayerCombat.SetStats(soldier.Unit.GetAttack(), soldier.Unit.GetDefense, target.Unit.GetAttack(), target.Unit.GetDefense); FIX LATER*****
+        PlayerCombat pc = new PlayerCombat();
+        pc.SetStats(5, 5, 5, 5);
+        int dmg = pc.AttackPhase(true);
+        Debug.Log("Player hits for: " + dmg);
+        TurnManager.EndTurn();
 
-            // Run following when attack completes for turning to another unit
-            Debug.Log("Player attacks ended....Turning to another unit");
-            attacking = false;
-            TurnManager.EndTurn();
-        }
+        /* attackCount++;      // Increase attack count for testing
+         if (attackCount < 5)
+         {
+             Debug.Log("Player hits for: " + dmg);
+         }
+         else
+         {
+             attackCount = 0;
+
+             // Run following when attack completes for turning to another unit
+             Debug.Log("Player attacks ended....Turning to another unit");
+             attacking = false;
+             TurnManager.EndTurn();
+         }*/
     }
 
 }

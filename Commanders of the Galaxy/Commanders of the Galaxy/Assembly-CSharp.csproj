@@ -63,8 +63,8 @@
   <ItemGroup>
     <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\NPCAnimController.cs" />
-    <Compile Include="Assets\Player Combat.cs" />
     <Compile Include="Assets\PlayerAnimController.cs" />
+    <Compile Include="Assets\PlayerCombat.cs" />
     <Compile Include="Assets\Resources\MenuScript.cs" />
     <Compile Include="Assets\Resources\NPCMove.cs" />
     <Compile Include="Assets\Resources\PlayerMove.cs" />
@@ -108,6 +108,7 @@
     <Compile Include="Assets\StartPanel\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\StartPanel\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\StartPanel\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
+    <Compile Include="Assets\Unit.cs" />
     <None Include="Assets\BackgroundCars\FreeCar\BackgroundCar-Free.txt" />
     <None Include="Assets\StartPanel\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\StartPanel\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
