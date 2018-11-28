@@ -32,7 +32,7 @@ public class PlayerCombat : MonoBehaviour {
     public int AttackPhase(bool initiator)
     {
         int damage;    
-        bool winner = false; //If false, defender wins; If true, attacker wins
+        //bool winner = false; //If false, defender wins; If true, attacker wins
         bool init = initiator; //Used to determine whether the player or NPC is the initiator. False = NPC; True = Player
 
         if (init)
@@ -52,23 +52,30 @@ public class PlayerCombat : MonoBehaviour {
 
         int attackAverage = 0;
         int defenseAverage = 0;
-        System.Random rnd = new System.Random();
+
         //Determine strength of attack using units attack and dice rolls.
-        for (int i = 0; i < attack; i++)
+        for (int i = 0; i < 5/*attack*/; i++)
         {
-            if (rnd.Next(1, 6) < 3)
+            float atkNum = Random.Range(1f, 6f);
+            Debug.Log("Attack roll " + i + ": " + atkNum);
+            if (atkNum < 3f)
             {
                 attackAverage++;
             }
         }
+
         //Determine strength of defense using units defense and dice rolls.
-        for (int i = 0; i < defense; i++)
+        for (int i = 0; i < 5/*defense*/; i++)
         {
-            if (rnd.Next(1, 6) < 4)
+            float defNum = Random.Range(1f, 6f);
+            Debug.Log("Defence roll " + i + ": " + defNum);
+            if (defNum > 4f)
             {
                 defenseAverage++;
             }
         }
+
+        Debug.Log("DefAVG: " + defenseAverage + "\n AtkAVG: " + attackAverage);
         //When atk is greater than def, attacker wins. Otherwise, the defender wins. 
         if (attackAverage > defenseAverage)
         {
